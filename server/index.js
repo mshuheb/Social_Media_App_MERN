@@ -31,13 +31,12 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
-    origin: "*", // Allow all origins (for debugging only)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    origin: "https://social-media-app-mern-client.vercel.app", // No trailing slash
+    methods: ["GET", "POST", "OPTIONS"], // Add OPTIONS for preflight
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+    credentials: true, // Enable credentials (e.g., cookies, auth headers)
   })
 );
-
 
 // Handle preflight requests
 app.options("*", cors());
