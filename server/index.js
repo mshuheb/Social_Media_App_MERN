@@ -31,11 +31,15 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
-    origin: ["https://social-media-app-mern-client.vercel.app"], 
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: "https://social-media-app-mern-client.vercel.app", // No trailing slash
+    methods: ["GET", "POST", "OPTIONS"], // Add OPTIONS for preflight
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+    credentials: true, // Enable credentials (e.g., cookies, auth headers)
   })
 );
+
+// Handle preflight requests
+app.options("*", cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* FILE STORAGE */
