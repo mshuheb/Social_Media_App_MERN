@@ -91,7 +91,8 @@ const Navbar = () => {
               value={fullName}
               sx={{
                 backgroundColor: neutralLight,
-                width: "150px",
+                minWidth: "150px",
+                width: "fit-content",
                 borderRadius: "0.25rem",
                 p: "0.25rem 1rem",
                 "& .MuiSvgIcon-root": {
@@ -103,6 +104,14 @@ const Navbar = () => {
                 },
               }}
               input={<InputBase />}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    width: "auto",
+                    minWidth: "150px",
+                  },
+                },
+              }}
             >
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
@@ -166,8 +175,7 @@ const Navbar = () => {
                 value={fullName}
                 sx={{
                   backgroundColor: neutralLight,
-                  minWidth: "150px",
-                  width: "fit-content",
+                  width: "150px",
                   borderRadius: "0.25rem",
                   p: "0.25rem 1rem",
                   "& .MuiSvgIcon-root": {
@@ -179,14 +187,6 @@ const Navbar = () => {
                   },
                 }}
                 input={<InputBase />}
-                MenuProps={{
-                  PaperProps: {
-                    style: {
-                      width: "auto",
-                      minWidth: "150px",
-                    },
-                  },
-                }}
               >
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
