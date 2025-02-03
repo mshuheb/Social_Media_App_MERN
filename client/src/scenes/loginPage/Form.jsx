@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -54,6 +55,7 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const [loading, setLoading] = useState(false);
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
@@ -79,11 +81,14 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("https://social-media-app-mern-p6xm.onrender.com/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    const loggedInResponse = await fetch(
+      "https://social-media-app-mern-p6xm.onrender.com/auth/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedIn) {
@@ -97,9 +102,14 @@ const Form = () => {
     }
   };
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
+  const handleFormSubmit = async (values, onSubmitProps, e) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
 
   return (
@@ -244,9 +254,21 @@ const Form = () => {
                 color: palette.background.alt,
                 "&:hover": { color: palette.primary.main },
               }}
+              onClick={handleSubmit}
+              disabled={loading} // Disable the button while loading
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              {loading ? (
+                <CircularProgress
+                  size={24}
+                  sx={{ color: palette.background.alt }}
+                />
+              ) : isLogin ? (
+                "LOGIN"
+              ) : (
+                "REGISTER"
+              )}
             </Button>
+
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
